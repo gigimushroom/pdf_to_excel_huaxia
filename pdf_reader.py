@@ -29,9 +29,13 @@ def parse_report(text):
     lines = text.splitlines()
 
     # find ETD
-    dates = lines[23]
+    dates_no = 23
+    if lines[15] == 'LTD':
+        dates_no += 1
+        
+    dates = lines[dates_no]
     res = re.findall(r'\d\d-(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)-\d\d', dates)
-
+    print(dates)
     d[1] = res[0]
 
     # find MAWB, HAWB
@@ -64,7 +68,7 @@ def parse_report(text):
     return d
     
 def run():
-    text = read_pdf_as_text('input/in4.pdf')
+    text = read_pdf_as_text('input/INVOICE - SAE017419YVR - HUAINTYVR (05-Apr-21).PDF')
     print(text)
     report = parse_report(text)
     print(report)
@@ -100,4 +104,4 @@ def csv_writer(reports):
 reports = eval_folder()
 csv_writer(reports)
 
-# run()
+#run()
